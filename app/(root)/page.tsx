@@ -1,13 +1,24 @@
 "use client"
 
-import { Modal } from "@/components/ui/modal";
+import { useRestaurantModal } from "@/hooks/use-restaurant-modal";
+
+import { useEffect } from "react";
+
+
 
 const RootPage = () => {
+  const onOpen = useRestaurantModal((state) => state.onOpen);
+  const isOpen = useRestaurantModal((state) => state.isOpen);
+
+  useEffect(() => {
+    if(!isOpen){
+      onOpen();
+    }
+  }, [isOpen, onOpen]);
+
   return (
     <div className="p-4">
-      <Modal title="Test" description="Test desc" isOpen onClose={() => {}}>
-        Children
-      </Modal>
+     
     </div>
   )
 }

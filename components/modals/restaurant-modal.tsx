@@ -14,6 +14,6 @@ export const RestaurantModal = () => {
             >
             Future Restaurant Form
         </Modal>
-    )
+    );
 };
 
