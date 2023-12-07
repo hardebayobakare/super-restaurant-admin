@@ -1,17 +1,22 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import * as z from "zod";
+import toast from "react-hot-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { Restaurant } from "@prisma/client";
+import { Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { Restaurant } from "@prisma/client";
-import { Trash } from "lucide-react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { AlertModal } from "@/components/modals/alert-model";
+
 
 
 
@@ -29,6 +34,8 @@ type SettingsFormValues = z.infer<typeof formSchema>;
 export const SettingsForm: React.FC<SettingsFormProps> = ({
     initialData
 }) => {
+    const params = useParams();
+    const router = useRouter();
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -39,11 +46,42 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     });
 
     const onSubmit = async (data: SettingsFormValues) => {
-        console.log(data);
+        try {
+            setLoading(true);
+            await axios.patch(`/api/restaurants/${params.restaurantId}`, data);
+            router.refresh();
+            toast.success("Resturant updated.");
+        } catch (error) {
+            toast.error("Something went wrong.")
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const onDelete = async  () => {
+        try {
+           setLoading(true);
+           
+           await axios.delete(`/api/restaurants/${params.restaurantId}`)
+           router.refresh();
+           router.push("/");
+           toast.success("Resturant deleted.");
+        } catch (error) {
+            toast.error("Make sure you remove all menu and categories first.")
+        } finally {
+            setLoading(false);
+            setOpen(false);
+        }
     }
 
     return (
         <>
+            <AlertModal
+                isOpen={open}
+                onClose={() => setOpen(false)}
+                onConfirm={onDelete}
+                loading= {loading} 
+            />
             <div className="flex items-center justify-between">
                 <Heading
                     title="Settings"
