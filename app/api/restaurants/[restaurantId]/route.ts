@@ -17,7 +17,7 @@ export async function PATCH (req: Request, { params }: { params: {restaurantId: 
             return new NextResponse("Name is required", {status: 400});
         }
 
-        if(params.restaurantId) {
+        if(!params.restaurantId) {
             return new NextResponse("Restaurant Id is required", {status: 400});
         }
 
@@ -47,7 +47,7 @@ export async function DELETE (req: Request, { params }: { params: {restaurantId:
             return new NextResponse("Unauthenticated", {status: 401});
         }
 
-        if(params.restaurantId) {
+        if(!params.restaurantId) {
             return new NextResponse("Restaurant Id is required", {status: 400});
         }
 
