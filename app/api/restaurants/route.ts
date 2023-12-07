@@ -31,10 +31,3 @@ export async function POST(req: Request, ) {
         return new NextResponse("Internal error", {status: 500});
     } 
 }
-
-export async function GET(req:Request) {
-    return NextResponse.json("restaurant");
-
-    console.log("GET REQUEST");
-    
-}

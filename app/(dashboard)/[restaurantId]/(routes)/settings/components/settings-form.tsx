@@ -60,24 +60,17 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
 
     const onDelete = async  () => {
         try {
-            const response = await axios.delete(`/api/restaurants/${params.restaurantId}`);
-            console.log(response);
-          } catch (error) {
-            console.error(error);
+           setLoading(true);
+           await axios.delete(`/api/restaurants/${params.restaurantId}`)
+           router.refresh();
+           router.push("/");
+           toast.success("Resturant deleted.");
+        } catch (error) {
+            toast.error("Make sure you remove all menu and categories first.")
+        } finally {
+            setLoading(false);
+            setOpen(false);
         }
-        // try {
-        //    setLoading(true);
-        //    console.log(params.restaurantId);
-        //    await axios.delete(`/api/restaurants/${params.restaurantId}`)
-        //    router.refresh();
-        //    router.push("/");
-        //    toast.success("Resturant deleted.");
-        // } catch (error) {
-        //     toast.error("Make sure you remove all menu and categories first.")
-        // } finally {
-        //     setLoading(false);
-        //     setOpen(false);
-        // }
     }
 
     return (
