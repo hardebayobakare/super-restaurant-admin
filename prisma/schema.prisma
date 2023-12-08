@@ -15,6 +15,13 @@ model Restaurant {
   id  String  @id @default(uuid())
   name  String
   userId  String
+  billboards Billboard[] @relation("RestaurantToBillboard")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Billboard {
+  id String @id @default(uuid())
+  restaurantId String
+  restaurant Restaurant @relation("RestaurantToBillboard", fields: [restaurantId], references: [id])
 }
