@@ -24,4 +24,10 @@ model Billboard {
   id String @id @default(uuid())
   restaurantId String
   restaurant Restaurant @relation("RestaurantToBillboard", fields: [restaurantId], references: [id])
+  label String
+  imageUrl String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([restaurantId])
 }

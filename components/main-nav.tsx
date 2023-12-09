@@ -18,6 +18,11 @@ export function MainNav({
             active: pathname === `${params.restaurantId}`,
         },
         {
+            href: `/${params.restaurantId}/billboards`,
+            label: 'Billboards',
+            active: pathname === `${params.restaurantId}/billboards`,
+        },
+        {
             href: `/${params.restaurantId}/settings`,
             label: 'Settings',
             active: pathname === `${params.restaurantId}/settings`,
