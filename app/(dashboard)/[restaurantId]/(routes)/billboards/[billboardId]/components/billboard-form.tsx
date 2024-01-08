@@ -77,7 +77,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
            setLoading(true);
            await axios.delete(`/api/${params.restaurantId}/billboards/${params.billboardId}`)
            router.refresh();
-           router.push("/");
+           router.push(`/${params.restaurantId}/billboards`);
            toast.success("Billboard deleted.");
         } catch (error) {
             toast.error("Make sure you remove all categories using billboard first.")
@@ -152,7 +152,6 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
                     </Button>
                 </form>
             </Form>
-            <Separator />
             {/* <ApiAlert title="NEXT_PUBLIC_API_URL" description={`${origin}/api/${params.restaurantId}`} variant="public" /> */}
         </> 
         
