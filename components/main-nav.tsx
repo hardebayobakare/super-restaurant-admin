@@ -15,17 +15,17 @@ export function MainNav({
         {
             href: `/${params.restaurantId}`,
             label: 'Home',
-            active: pathname === `${params.restaurantId}`,
+            active: pathname === `/${params.restaurantId}`,
         },
         {
             href: `/${params.restaurantId}/billboards`,
             label: 'Billboards',
-            active: pathname === `${params.restaurantId}/billboards`,
+            active: pathname === `/${params.restaurantId}/billboards`,
         },
         {
             href: `/${params.restaurantId}/settings`,
             label: 'Settings',
-            active: pathname === `${params.restaurantId}/settings`,
+            active: pathname === `/${params.restaurantId}/settings`,
         }
     ]
     
