@@ -16,6 +16,7 @@ model Restaurant {
   name  String
   userId  String
   billboards Billboard[] @relation("RestaurantToBillboard")
+  category Category[] @relation("RestaurantToCategory")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -24,10 +25,25 @@ model Billboard {
   id String @id @default(uuid())
   restaurantId String
   restaurant Restaurant @relation("RestaurantToBillboard", fields: [restaurantId], references: [id])
+  categories Category[]
   label String
   imageUrl String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([restaurantId])
+}
+
+model Category {
+  id String @id @default(uuid())
+  restaurantId String
+  restaurant Restaurant @relation("RestaurantToCategory", fields: [restaurantId], references: [id])
+  billboardId String
+  billboard Billboard @relation(fields: [billboardId], references: [id])
+  name String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([restaurantId])
+  @@index([billboardId])
 }
