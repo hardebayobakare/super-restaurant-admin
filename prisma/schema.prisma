@@ -76,8 +76,8 @@ model Product {
   isArchived Boolean @default(false)
   sizeId String
   size Size @relation(fields: [sizeId], references: [id])
-  image Image[]
-  createAt DateTime @default(now())
+  images Image[]
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([restaurantId])
