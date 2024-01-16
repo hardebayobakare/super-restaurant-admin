@@ -17,6 +17,7 @@ model Restaurant {
   userId  String
   billboards Billboard[] @relation("RestaurantToBillboard")
   category Category[] @relation("RestaurantToCategory")
+  size Size[] @relation("RestaurantToSize")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -46,4 +47,16 @@ model Category {
 
   @@index([restaurantId])
   @@index([billboardId])
+}
+
+model Size {
+  id String @id @default(uuid())
+  restaurantId String
+  restaurant Restaurant @relation("RestaurantToSize", fields: [restaurantId], references: [id])
+  name String
+  value String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([restaurantId])
 }
