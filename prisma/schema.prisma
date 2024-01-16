@@ -18,6 +18,7 @@ model Restaurant {
   billboards Billboard[] @relation("RestaurantToBillboard")
   category Category[] @relation("RestaurantToCategory")
   size Size[] @relation("RestaurantToSize")
+  product Product[] @relation("RestaurantToProduct")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -41,6 +42,7 @@ model Category {
   restaurant Restaurant @relation("RestaurantToCategory", fields: [restaurantId], references: [id])
   billboardId String
   billboard Billboard @relation(fields: [billboardId], references: [id])
+  product Product[] @relation("CategoryToProduct")
   name String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -53,10 +55,43 @@ model Size {
   id String @id @default(uuid())
   restaurantId String
   restaurant Restaurant @relation("RestaurantToSize", fields: [restaurantId], references: [id])
+  product Product[]
   name String
   value String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([restaurantId])
+}
+
+model Product {
+  id String @id @default(uuid())
+  restaurantId String
+  restaurant Restaurant @relation("RestaurantToProduct", fields: [restaurantId], references: [id])
+  categoryId String
+  category Category @relation("CategoryToProduct", fields: [categoryId], references: [id])
+  name String
+  price Decimal
+  isFeatured Boolean @default(false)
+  isArchived Boolean @default(false)
+  sizeId String
+  size Size @relation(fields: [sizeId], references: [id])
+  image Image[]
+  createAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([restaurantId])
+  @@index([categoryId])
+  @@index([sizeId])
+}
+
+model Image {
+  id String @id @default(uuid())
+  productId String
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url String
+  createAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
 }
