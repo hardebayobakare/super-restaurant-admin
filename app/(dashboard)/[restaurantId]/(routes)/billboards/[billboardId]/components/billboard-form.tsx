@@ -22,7 +22,7 @@ import ImageUpload from "@/components/image-upload";
 
 const formSchema = z.object({
     label: z.string().min(1),
-    imageUrl: z.string().min(1),
+    imageUrl: z.string()
 });
 
 type BillboardFormValues = z.infer<typeof formSchema>;
@@ -65,8 +65,8 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
             router.refresh();
             router.push(`/${params.restaurantId}/billboards`)
             toast.success(toastmessage);
-        } catch (error) {
-            toast.error("Something went wrong.")
+        } catch (error: any) {
+            toast.error(error.response.data)
         } finally {
             setLoading(false);
         }

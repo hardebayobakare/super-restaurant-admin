@@ -5,7 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { BillboardColumn } from "./columns";
+import { ProductColumn } from "./columns";
 import { Button } from "@/components/ui/button";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { AlertModal } from "@/components/modals/alert-model";
@@ -13,7 +13,7 @@ import { AlertModal } from "@/components/modals/alert-model";
 
 
 interface CellActionProps {
-    data: BillboardColumn
+    data: ProductColumn
 }
 
 export const  CellAction: React.FC<CellActionProps> = ({
@@ -27,17 +27,17 @@ export const  CellAction: React.FC<CellActionProps> = ({
 
     const onCopy = (id: string) => {
         navigator.clipboard.writeText(id);
-        toast.success("Billboard ID copied to clipboard");
+        toast.success("Product ID copied to clipboard");
     }
 
     const onDelete = async  () => {
         try {
            setLoading(true);
-           await axios.delete(`/api/${params.restaurantId}/billboards/${data.id}`)
+           await axios.delete(`/api/${params.restaurantId}/products/${data.id}`)
            router.refresh();
-           toast.success("Billboard deleted.");
+           toast.success("Product deleted.");
         } catch (error) {
-            toast.error("Make sure you remove all categories using billboard first.")
+            toast.error("Something went wrong")
         } finally {
             setLoading(false);
             setOpen(false);
@@ -62,7 +62,7 @@ export const  CellAction: React.FC<CellActionProps> = ({
                         <Copy className="mr-2 h-4 w-4"/>
                         Copy Id
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => router.push(`/${params.restaurantId}/billboards/${data.id}`)}>
+                    <DropdownMenuItem onClick={() => router.push(`/${params.restaurantId}/products/${data.id}`)}>
                         <Edit className="mr-2 h-4 w-4"/>
                         Update
                     </DropdownMenuItem>
