@@ -104,6 +104,7 @@ model Order {
   restaurant Restaurant @relation("RestaurantToOrder", fields: [restaurantId], references: [id])
   orderItems OrderItem[]
   isPaid Boolean @default(false)
+  name String @default("")
   phone String @default("")
   address String @default("")
   createdAt DateTime @default(now())
