@@ -5,17 +5,19 @@ This is a repository for a Full Stack Restaurant Admin Dashboard: Next.js 14 App
 
 
 Key Features:
-UI/UX: Shadcn UI is used for the user interface [Shadcn UI Docs](https://ui.shadcn.com/docs)
-Authentication: Clerk Authentication service is used [Clerk Authentication](https://clerk.com/)
-Database: MySQL hosted on PlanetScale [PlanetScale] (https://planetscale.com/)
-Object Relational Mapping: Prisma [Prisma DOcs](https://www.prisma.io/docs)
-The admin dashboard serves as Content management system (CMS), frontend API, and Admin panel
-Able to create, update and delete produts!
-Able to create, update and delete categories!
-Able to upload multiple images for products and update whenever required
-Able to create, update and delete filters such as "Size", and then match them in the "Product" creation form.
-Able to Search through all categories, products, sizes, billboards with included pagination!
-Able to control which products are "featured" so they show on the homepage!
+
+
+- UI/UX: Shadcn UI is used for the user interface [Shadcn UI Docs](https://ui.shadcn.com/docs)
+- Authentication: Clerk Authentication service is used [Clerk Authentication](https://clerk.com/)
+- Database: MySQL hosted on PlanetScale [PlanetScale] (https://planetscale.com/)
+- Object Relational Mapping: Prisma [Prisma DOcs](https://www.prisma.io/docs)
+- The admin dashboard serves as Content management system (CMS), frontend API, and Admin panel
+- Able to create, update and delete produts!
+- Able to create, update and delete categories!
+- Able to upload multiple images for products and update whenever required
+- Able to create, update and delete filters such as "Size", and then match them in the "Product" creation form.
+- Able to Search through all categories, products, sizes, billboards with included pagination!
+- Able to control which products are "featured" so they show on the homepage!
 
 
 ### Prerequisites
