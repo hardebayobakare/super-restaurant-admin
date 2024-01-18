@@ -1,17 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Full Stack Restaurant Admin Dashboard: Next.js 14 App Router, TailwindCSS, React, Prisma, MySQL, 2024
 
-## Getting Started
 
-First, run the development server:
+This is a repository for a Full Stack Restaurant Admin Dashboard: Next.js 14 App Router, TailwindCSS, React, Prisma, MySQL
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Key Features:
+UI/UX: Shadcn UI is used for the user interface [Shadcn UI Docs](https://ui.shadcn.com/docs)
+Authentication: Clerk Authentication service is used [Clerk Authentication](https://clerk.com/)
+Database: MySQL hosted on PlanetScale [PlanetScale] (https://planetscale.com/)
+Object Relational Mapping: Prisma [Prisma DOcs](https://www.prisma.io/docs)
+The admin dashboard serves as Content management system (CMS), frontend API, and Admin panel
+Able to create, update and delete produts!
+Able to create, update and delete categories!
+Able to upload multiple images for products and update whenever required
+Able to create, update and delete filters such as "Size", and then match them in the "Product" creation form.
+Able to Search through all categories, products, sizes, billboards with included pagination!
+Able to control which products are "featured" so they show on the homepage!
+
+
+### Prerequisites
+**Node version 20.x**
