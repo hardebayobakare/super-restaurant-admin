@@ -81,6 +81,7 @@ export async function GET(req: Request,  { params }: { params: {restaurantId: st
         const categoryId = searchParams.get("categoryId") || undefined;
         const sizeId = searchParams.get("sizeId") || undefined;
         const isFeatured = searchParams.get("isFeatured") || undefined;
+        const billboardId = searchParams.get("billboardId") || undefined;
 
         if (!params.restaurantId){
             return new NextResponse("Restaurant ID is required", {status: 400});
@@ -92,12 +93,20 @@ export async function GET(req: Request,  { params }: { params: {restaurantId: st
                 categoryId,
                 sizeId,
                 isFeatured: isFeatured? true : undefined,
-                isArchived: false
+                isArchived: false,
+                category: {
+                    billboardId: billboardId
+                }
             },
             include: {
                 images: true,
-                category: true,
+                // category: true,
                 size: true,
+                category: {
+                    include: {
+                        billboard: true
+                    }
+                },
             },
             orderBy: {
                 createdAt: 'desc'

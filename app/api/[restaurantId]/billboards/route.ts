@@ -7,7 +7,7 @@ export async function POST(req: Request,  { params }: { params: {restaurantId: s
         const { userId } = auth();
         const body = await req.json();
 
-        const { label, imageUrl } = body;
+        const { label, imageUrl, isMainMenu } = body;
 
         if (!userId){
             return new NextResponse("Unauthenticated", {status: 401});
@@ -40,6 +40,7 @@ export async function POST(req: Request,  { params }: { params: {restaurantId: s
             data: {
                 label,
                 imageUrl,
+                isMainMenu,
                 restaurantId: params.restaurantId,
             }
         });

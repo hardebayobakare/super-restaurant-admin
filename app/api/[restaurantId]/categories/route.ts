@@ -54,12 +54,16 @@ export async function POST(req: Request,  { params }: { params: {restaurantId: s
 
 export async function GET(req: Request,  { params }: { params: {restaurantId: string}}) {
     try {
+        const { searchParams } = new URL(req.url);
+        const billboardId = searchParams.get("billboardId") || undefined;
+
         if (!params.restaurantId){
             return new NextResponse("Restaurant ID is required", {status: 400});
         }
 
         const categories = await prismadb.category.findMany({
             where:{
+                billboardId,
                 restaurantId: params.restaurantId
             }
         });

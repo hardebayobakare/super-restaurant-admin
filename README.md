@@ -7,10 +7,10 @@ This is a repository for a Full Stack Restaurant Admin Dashboard: Next.js 14 App
 Key Features:
 
 
-- UI/UX: Shadcn UI is used for the user interface [Shadcn UI Docs](https://ui.shadcn.com/docs)
-- Authentication: Clerk Authentication service is used [Clerk Authentication](https://clerk.com/)
+- UI/UX: Shadcn UI [Shadcn UI Docs](https://ui.shadcn.com/docs)
+- Authentication: Clerk Authentication [Clerk Authentication](https://clerk.com/)
 - Database: MySQL hosted on PlanetScale [PlanetScale] (https://planetscale.com/)
-- Object Relational Mapping: Prisma [Prisma DOcs](https://www.prisma.io/docs)
+- Object Relational Mapping (ORM): Prisma [Prisma DOcs](https://www.prisma.io/docs)
 - The admin dashboard serves as Content management system (CMS), frontend API, and Admin panel
 - Able to create, update and delete produts!
 - Able to create, update and delete categories!

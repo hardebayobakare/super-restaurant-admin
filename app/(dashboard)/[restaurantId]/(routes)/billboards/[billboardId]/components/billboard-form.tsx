@@ -13,16 +13,18 @@ import { Billboard } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { AlertModal } from "@/components/modals/alert-model";
 import { ApiAlert } from "@/components/ui/api-alert";
 import { useOrigin } from "@/hooks/use-origin";
 import ImageUpload from "@/components/image-upload";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
     label: z.string().min(1),
-    imageUrl: z.string()
+    imageUrl: z.string(),
+    isMainMenu: z.boolean().default(false).optional(),
 });
 
 type BillboardFormValues = z.infer<typeof formSchema>;
@@ -50,7 +52,8 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
         resolver: zodResolver(formSchema),
         defaultValues: initialData || {
             label: '',
-            imageUrl: ''
+            imageUrl: '',
+            isMainMenu: false,
         }
     });
 
@@ -143,6 +146,25 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
                                         <Input disabled={ loading } placeholder="Billboard label" {...field}/>
                                     </FormControl>
                                     <FormMessage />
+                                </FormItem>
+                            )} 
+                        />
+                        <FormField
+                            control={form.control}
+                            name="isMainMenu"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                                    <FormControl>
+                                        <Checkbox checked={field.value} onCheckedChange={field.onChange}/>
+                                    </FormControl>
+                                    <div className="space-y-1 leading-none">
+                                        <FormLabel>
+                                            Main Menu Billboard
+                                        </FormLabel>
+                                        <FormDescription>
+                                            This billboard will be part of Main menu
+                                        </FormDescription>
+                                    </div>
                                 </FormItem>
                             )} 
                         />
