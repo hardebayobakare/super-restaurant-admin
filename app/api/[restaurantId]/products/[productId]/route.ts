@@ -7,7 +7,7 @@ export async function PATCH (req: Request, { params }: { params: {restaurantId: 
         const { userId } = auth();
         const body = await req.json();
 
-        const { name, price, categoryId, sizeId, images, isFeatured, isArchived } = body;
+        const { name, price, quantity, categoryId, sizeId, images, isFeatured, isArchived } = body;
 
         if(!userId){
             return new NextResponse("Unauthenticated", {status: 401});
@@ -59,6 +59,7 @@ export async function PATCH (req: Request, { params }: { params: {restaurantId: 
             data: {
                 name,
                 price,
+                quantity,
                 categoryId,
                 sizeId,
                 images: {

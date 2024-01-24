@@ -16,7 +16,7 @@ export async function OPTIONS() {
 };
 
 export async function POST(req: Request, { params }: { params: {restaurantId: string } }) {
-    const { productIds } = await req.json();    
+    const { productIds, redirectUrl } = await req.json();  
 
     if(!productIds || productIds.length === 0) {
         return new NextResponse("Product ids are required", { status: 400});
@@ -68,8 +68,8 @@ export async function POST(req: Request, { params }: { params: {restaurantId: st
         phone_number_collection: {
             enabled: true
         },
-        success_url: `${process.env.FRONTEND_STORE_URL}/cart?success=1`,
-        cancel_url: `${process.env.FRONTEND_STORE_URL}/cart?cancel=1`,
+        success_url: `${redirectUrl}/cart?success=1`,
+        cancel_url: `${redirectUrl}/cart?cancel=1`,
         metadata: {
             orderId: order.id
         }
