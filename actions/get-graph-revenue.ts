@@ -27,9 +27,9 @@ export const getGraphRevenue = async (restaurantId: string) => {
 
         let revenueForOrder = 0;
 
-        for (const item of order.orderItems) {
-            revenueForOrder += item.product.price.toNumber();
-        }
+        // for (const item of order.orderItems) {
+        //     revenueForOrder += item.product.price.toNumber();
+        // }
 
         monthlyRevenue[month] = (monthlyRevenue[month] || 0) + revenueForOrder;
     }

@@ -7,7 +7,7 @@ export async function POST(req: Request,  { params }: { params: {restaurantId: s
         const { userId } = auth();
         const body = await req.json();
 
-        const { name, price, categoryId, sizeId, quantity, images, isFeatured, isArchived } = body;
+        const { name, categoryId, images, sizePrices, isFeatured, isArchived } = body;
 
         if (!userId){
             return new NextResponse("Unauthenticated", {status: 401});
@@ -21,16 +21,12 @@ export async function POST(req: Request,  { params }: { params: {restaurantId: s
             return new NextResponse("Images are required", {status: 400});
         }
 
-        if (!price){
-            return new NextResponse("Price is required", {status: 400});
+        if (!sizePrices || !sizePrices.length){
+            return new NextResponse("At least a size, price and quantity is required", {status: 400});
         }
 
         if (!categoryId){
             return new NextResponse("Category Id is required", {status: 400});
-        }
-
-        if (!sizeId){
-            return new NextResponse("Size Id is required", {status: 400});
         }
 
         if (!params.restaurantId){
@@ -51,17 +47,21 @@ export async function POST(req: Request,  { params }: { params: {restaurantId: s
         const product = await prismadb.product.create({
             data: {
                 name,
-                price,
-                quantity,
                 isFeatured,
                 isArchived,
                 categoryId,
-                sizeId,
                 restaurantId: params.restaurantId,
                 images: {
                     createMany: {
                         data: [
                             ...images.map((image: { url: string }) => image)
+                        ]
+                    }
+                },
+                sizePrices: {
+                    createMany: {
+                        data: [
+                            ...sizePrices.map((sizePrice: {}) =>sizePrice)
                         ]
                     }
                 }
@@ -92,7 +92,6 @@ export async function GET(req: Request,  { params }: { params: {restaurantId: st
             where:{
                 restaurantId: params.restaurantId,
                 categoryId,
-                sizeId,
                 isFeatured: isFeatured? true : undefined,
                 isArchived: false,
                 category: {
@@ -101,8 +100,7 @@ export async function GET(req: Request,  { params }: { params: {restaurantId: st
             },
             include: {
                 images: true,
-                // category: true,
-                size: true,
+                sizePrices: true,
                 category: {
                     include: {
                         billboard: true

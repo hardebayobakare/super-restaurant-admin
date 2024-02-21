@@ -15,13 +15,14 @@ export const getTotalRevenue = async (restaurantId: string) => {
         }
     });
 
-    const totalRevenue = paidOrders.reduce((total, order) => {
-        const orderTotal = order.orderItems.reduce((orderSum, item) => {
-            return orderSum + item.product.price.toNumber();
-        }, 0)
+    // const totalRevenue = paidOrders.reduce((total, order) => {
+    //     const orderTotal = order.orderItems.reduce((orderSum, item) => {
+    //         return orderSum + item.product.price.toNumber();
+    //     }, 0)
 
-        return total + orderTotal;
-    }, 0)
+    //     return total + orderTotal;
+    // }, 0)
 
-    return totalRevenue;
+    // return totalRevenue;
+    return 0;
 }

@@ -57,7 +57,7 @@ model Size {
   id String @id @default(uuid())
   restaurantId String
   restaurant Restaurant @relation("RestaurantToSize", fields: [restaurantId], references: [id])
-  product Product[]
+  sizePrice SizePrice[]
   name String
   value String
   createdAt DateTime @default(now())
@@ -73,20 +73,17 @@ model Product {
   categoryId String
   category Category @relation("CategoryToProduct", fields: [categoryId], references: [id])
   name String
-  price Decimal
   isFeatured Boolean @default(false)
   isArchived Boolean @default(false)
-  quantity Int @default(1)
-  sizeId String
-  size Size @relation(fields: [sizeId], references: [id])
   images Image[]
   orderItems OrderItem[]
+  sizePrices SizePrice[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+
   @@index([restaurantId])
   @@index([categoryId])
-  @@index([sizeId])
 }
 
 model Image {
@@ -98,6 +95,19 @@ model Image {
   updatedAt DateTime @updatedAt
 
   @@index([productId])
+}
+
+model SizePrice {
+  id String @id @default(uuid())
+  productId String
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sizeId String
+  size Size @relation(fields: [sizeId], references: [id], onDelete: Cascade)
+  quantity Int @default(1)
+  price Decimal
+
+  @@index([productId])
+  @@index([sizeId])
 }
 
 model Order {

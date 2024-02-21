@@ -7,7 +7,7 @@ export async function PATCH (req: Request, { params }: { params: {restaurantId: 
         const { userId } = auth();
         const body = await req.json();
 
-        const { name, price, quantity, categoryId, sizeId, images, isFeatured, isArchived } = body;
+        const { name, categoryId, sizePrices, images, isFeatured, isArchived } = body;
 
         if(!userId){
             return new NextResponse("Unauthenticated", {status: 401});
@@ -21,16 +21,12 @@ export async function PATCH (req: Request, { params }: { params: {restaurantId: 
             return new NextResponse("Images are required", {status: 400});
         }
 
-        if (!price){
-            return new NextResponse("Price is required", {status: 400});
-        }
-
         if (!categoryId){
             return new NextResponse("Category Id is required", {status: 400});
         }
 
-        if (!sizeId){
-            return new NextResponse("Size Id is required", {status: 400});
+        if (!sizePrices || !sizePrices.length){
+            return new NextResponse("At least a size, price and quantity is required", {status: 400});
         }
 
         if(!params.restaurantId) {
@@ -58,11 +54,13 @@ export async function PATCH (req: Request, { params }: { params: {restaurantId: 
             },
             data: {
                 name,
-                price,
-                quantity,
                 categoryId,
-                sizeId,
                 images: {
+                    deleteMany: {
+
+                    }
+                },
+                sizePrices: {
                     deleteMany: {
 
                     }
@@ -81,6 +79,13 @@ export async function PATCH (req: Request, { params }: { params: {restaurantId: 
                     createMany: {
                         data: [
                             ...images.map((image: { url: string }) => image),
+                        ]
+                    }
+                },
+                sizePrices: {
+                    createMany: {
+                        data: [
+                            ...sizePrices.map((sizePrice: {}) => sizePrice),
                         ]
                     }
                 }
@@ -150,7 +155,7 @@ export async function GET (req: Request, { params }: { params: {productId: strin
             include: {
                 images: true,
                 category: true,
-                size: true
+                sizePrices: true
             }
         })
 

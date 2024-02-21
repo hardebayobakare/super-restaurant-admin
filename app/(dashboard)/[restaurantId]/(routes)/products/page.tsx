@@ -17,7 +17,11 @@ const ProductPage = async ({
         },
         include: {
             category: true,
-            size: true,
+            sizePrices: {
+                include: {
+                    size: true
+                }
+            }
         },
         orderBy: {
             createdAt: 'desc'
@@ -27,12 +31,11 @@ const ProductPage = async ({
     const formattedProducts: ProductColumn [] = products.map((item) => ({
         id: item.id,
         name: item.name,
+        sizes: item.sizePrices.map((sizePrice) => sizePrice.size.name),
+        quantity: item.sizePrices.reduce((total, sizePrice) => total + sizePrice.quantity, 0),
         isFeatured: item.isFeatured,
         isArchived: item.isArchived,
-        quantity: item.quantity,
-        price: formatter.format(item.price.toNumber()),
         category: item.category.name,
-        size: item.size.name,
         createdAt: format(item.createdAt, "MMMM do, yyyy")
     }))
 
