@@ -1,4 +1,5 @@
 import prismadb from "@/lib/prismadb";
+import { Decimal } from "@prisma/client/runtime/library";
 
 interface GraphData {
     name: string;
@@ -27,9 +28,9 @@ export const getGraphRevenue = async (restaurantId: string) => {
 
         let revenueForOrder = 0;
 
-        // for (const item of order.orderItems) {
-        //     revenueForOrder += item.product.price.toNumber();
-        // }
+        for (const item of order.orderItems) {
+            revenueForOrder += ((new Decimal(item.price)).toNumber() * item.quantity);
+        }
 
         monthlyRevenue[month] = (monthlyRevenue[month] || 0) + revenueForOrder;
     }

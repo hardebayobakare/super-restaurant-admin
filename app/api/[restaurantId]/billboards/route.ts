@@ -55,13 +55,17 @@ export async function POST(req: Request,  { params }: { params: {restaurantId: s
 
 export async function GET(req: Request,  { params }: { params: {restaurantId: string}}) {
     try {
+        const { searchParams } = new URL(req.url);
+        const isMainMenu = searchParams.get("isMainMenu") || undefined;
+
         if (!params.restaurantId){
             return new NextResponse("Restaurant ID is required", {status: 400});
         }
 
         const billboards = await prismadb.billboard.findMany({
             where:{
-                restaurantId: params.restaurantId
+                restaurantId: params.restaurantId,
+                isMainMenu: isMainMenu? false : undefined,
             }
         });
 

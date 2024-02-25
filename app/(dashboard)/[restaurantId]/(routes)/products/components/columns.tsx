@@ -3,7 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { CellAction } from "./cell-action"
 import { Size, SizePrice } from "@prisma/client";
-import SizeSelector from "./size-selector";
 
 export type ProductColumn = {
   id: string;

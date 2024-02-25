@@ -100,7 +100,11 @@ export async function GET(req: Request,  { params }: { params: {restaurantId: st
             },
             include: {
                 images: true,
-                sizePrices: true,
+                sizePrices: {
+                    include: {
+                        size: true
+                    }
+                },
                 category: {
                     include: {
                         billboard: true

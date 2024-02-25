@@ -1,9 +1,18 @@
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
+import { Decimal } from "@prisma/client/runtime/library";
 
 import { stripe } from "@/lib/stripe";
 import prismadb from "@/lib/prismadb";
+import { SizePrice } from "@prisma/client";
+import { connect } from "http2";
 
+interface Product {
+    id: string;
+    name: string;
+    sizePrices: SizePrice[];
+    // Define other properties as needed
+}
 
 const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
@@ -16,50 +25,59 @@ export async function OPTIONS() {
 };
 
 export async function POST(req: Request, { params }: { params: {restaurantId: string } }) {
-    const { productIds, redirectUrl } = await req.json();  
+    const { items, redirectUrl} = await req.json();
 
-    if(!productIds || productIds.length === 0) {
-        return new NextResponse("Product ids are required", { status: 400});
+    const products: Product[] = JSON.parse(items);
+
+    
+
+    if(!items || items.length === 0) {
+        return new NextResponse("Products are required", { status: 400});
     }
-
-    const products = await prismadb.product.findMany({
-        where: {
-            id: {
-                in: productIds
-            }
-        }
-    });
     
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
-    products.forEach((product) => {
+    products.forEach((product: Product & { sizePrices: SizePrice[] }) => {
+        
         line_items.push({
-            quantity: 1,
+            quantity: product.sizePrices[0].quantity,
             price_data: {
                 currency: "USD",
                 product_data: {
                     name: product.name,
                 },
-                unit_amount: product.price.toNumber() * 100
+                unit_amount: new Decimal(product.sizePrices[0].price).toNumber() * 100,
             }
         });
     });
+    
 
     const order = await prismadb.order.create({
         data: {
             restaurantId: params.restaurantId,
             isPaid: false,
             orderItems: {
-                create: productIds.map((productId: string) => ({
-                    product: {
-                        connect: {
-                            id: productId
-                        }
-                    }
-                }))
-            }
-        }
+                create: products.flatMap((product: Product) => {
+                    return {
+                        product: {
+                            connect: {
+                                id: product.id
+                            }
+                        },
+                        quantity: product.sizePrices[0].quantity,
+                        size: {
+                            connect: {
+                                id: product.sizePrices[0].sizeId
+                            }
+                        },
+                        price: product.sizePrices[0].price
+                    };
+                }),
+            },
+        },
     });
+    
+
 
     const session = await stripe.checkout.sessions.create({
         line_items,
