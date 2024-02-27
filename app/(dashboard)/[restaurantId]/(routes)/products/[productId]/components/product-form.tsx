@@ -56,18 +56,18 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     const origin = useOrigin();
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [sizePrices, setSizePrices] = useState<{ sizeId: string; quantity: number; price: number}[]>([]);
+    const [sizePrices, setSizePrices] = useState<{ sizeId: string; quantity: number ; price: number }[]>([]);
 
     useEffect(() => {
         if (initialData && initialData.sizePrices) {
             setSizePrices(initialData.sizePrices.map(sizePrice => ({
                 sizeId: sizePrice.sizeId,
-                quantity: sizePrice.quantity,
+                quantity: Number(sizePrice.quantity),
                 price: Number(sizePrice.price)
             })));
         }else {
             // Initialize sizePrices with default values if no initial data provided
-            setSizePrices([{ sizeId: '', quantity: 0, price: 0.0 }]);
+            setSizePrices([{ sizeId: '', quantity: Number(), price: Number()}]);
         }
     }, [initialData]);
     
@@ -76,6 +76,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     const description = initialData ? "Edit a product" : "Create a product";
     const toastmessage = initialData ? "Product update." : "Product created.";
     const action = initialData ? "Save changes" : "Create";
+    
 
 
     const form = useForm<ProductFormValues>({
@@ -269,9 +270,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                                     const updatedSizePrices = [...sizePrices];
                                                     updatedSizePrices[index].sizeId = value;
                                                     setSizePrices(updatedSizePrices);
-                                                    form.setValue("sizePrices", updatedSizePrices);
+                                                    form.setValue("sizePrices", sizePrices);
                                                 }}
                                             >
+                                            
                                             <FormControl>
                                                 <SelectTrigger>
                                                     <SelectValue defaultValue={sizePrice.sizeId} placeholder="Select a Size"/>
@@ -289,14 +291,15 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                             <FormControl>
                                                 <Input
                                                     type="number"
+                                                    step="0.01"
                                                     disabled={loading}
                                                     placeholder="Quantity"
-                                                    value={sizePrice.quantity}
+                                                    value={sizePrice.quantity === 0 ? "Quantity" : sizePrice.quantity}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         const updatedSizePrices = [...sizePrices];
                                                         updatedSizePrices[index].quantity = Number(e.target.value);
                                                         setSizePrices(updatedSizePrices);
-                                                        form.setValue("sizePrices", updatedSizePrices);
+                                                        form.setValue("sizePrices", sizePrices);
                                                     }}
                                                 />
                                             </FormControl>
@@ -307,20 +310,20 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                                     step="0.01"
                                                     disabled={loading}
                                                     placeholder="Price"
-                                                    value={sizePrice.price}
+                                                    value={sizePrice.price === 0 ? "Price" : sizePrice.price}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         const updatedSizePrices = [...sizePrices];
-                                                        updatedSizePrices[index].price = parseFloat(e.target.value);
+                                                        updatedSizePrices[index].price = Number(e.target.value);
                                                         setSizePrices(updatedSizePrices);
-                                                        form.setValue("sizePrices", updatedSizePrices);
+                                                        form.setValue("sizePrices", sizePrices);
                                                     }}
                                                 />
                                             </FormControl>
-                                            {/* Button to remove sizePrice */}
+                                            {/* Button to add and remove sizePrice */}
                                             <Button
                                                 type="button"
                                                 onClick={() => {
-                                                    setSizePrices(prev => [...prev, { sizeId: '', quantity: 0, price: 0.0 }]);
+                                                    setSizePrices(prev => [...prev, { sizeId: '', quantity: Number(), price: Number() }]);
                                                 }}
                                                 disabled={sizePrices.some(sizePrice => {
                                                     const size = sizes.find(size => size.id === sizePrice.sizeId);
