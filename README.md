@@ -23,4 +23,25 @@ Key Features:
 ### Prerequisites
 **Node version 20.x**
 
-### Setup
+Setup:
+
+### Install Packages
+```shell
+npm i
+```
+
+### Setup .env file
+``` js
+
+```
+
+### Connect to Database (PlanetScale and Push Prisma)
+```shell
+npx prisma generate
+npx prisma db push
+```
+
+### Start the App
+```shell
+npm run dev
+```
