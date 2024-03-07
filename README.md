@@ -22,3 +22,5 @@ Key Features:
 
 ### Prerequisites
 **Node version 20.x**
+
+### Setup
