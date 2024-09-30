@@ -155,7 +155,11 @@ export async function GET (req: Request, { params }: { params: {productId: strin
             include: {
                 images: true,
                 category: true,
-                sizePrices: true
+                sizePrices: {
+                    include: {
+                        size: true
+                    }
+                }
             }
         })
 
