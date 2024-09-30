@@ -9,7 +9,7 @@ Key Features:
 
 - UI/UX: Shadcn UI [Shadcn UI Docs](https://ui.shadcn.com/docs), Recharts [Recharts Docs](https://recharts.org/en-US)
 - Authentication: Clerk Authentication [Clerk Authentication](https://clerk.com/)
-- Database: MySQL hosted on PlanetScale [PlanetScale] (https://planetscale.com/)
+- Database: PostGres hosted on Vercel [Vercel] (https://vercel.com/)
 - Object Relational Mapping (ORM): Prisma [Prisma DOcs](https://www.prisma.io/docs)
 - The admin dashboard serves as Content management system (CMS), frontend API, and Admin panel
 - Able to create, update and delete produts!
